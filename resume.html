@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#4361ee" stroke-width="2"/>
+  <path d="M8 12H16" stroke="#3a0ca3" stroke-width="2" stroke-linecap="round"/>
+  <path d="M12 8V16" stroke="#f72585" stroke-width="2" stroke-linecap="round"/>
+  <path d="M9 9L7 7" stroke="#7209b7" stroke-width="2" stroke-linecap="round"/>
+  <path d="M17 17L15 15" stroke="#4cc9f0" stroke-width="2" stroke-linecap="round"/>
+  <path d="M15 9L17 7" stroke="#4cc9f0" stroke-width="2" stroke-linecap="round"/>
+  <path d="M7 17L9 15" stroke="#7209b7" stroke-width="2" stroke-linecap="round"/>
+</svg>
+    <title>Simple Resume Builder</title>
+    <link rel="stylesheet" href="resume.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Simple Resume Builder</h1>
+        <div class="builder-container">
+            <div class="input-section">
+                <h2>Input Method</h2>
+                <div class="tabs">
+                    <button class="tab-button active" onclick="openTab('form')">Form Input</button>
+                    <button class="tab-button" onclick="openTab('edit')">JSON Input</button>
+                    <button class="tab-button" onclick="openTab('preview')">Preview JSON</button>
+                    <button class="tab-button" onclick="openTab('example')">Example</button>
+                </div>
+                
+                <div id="form" class="tab-content active">
+                    <form id="resume-form">
+                        <h3>Basic Information</h3>
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="label">Professional Title</label>
+                            <input type="text" id="label" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="text" id="phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="website">Website</label>
+                            <input type="url" id="website">
+                        </div>
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <input type="text" id="city">
+                        </div>
+                        <div class="form-group">
+                            <label for="country">Country</label>
+                            <input type="text" id="country">
+                        </div>
+                        
+                        <h3>Work Experience</h3>
+                        <div id="work-experience-container">
+                            <div class="work-experience-item">
+                                <div class="form-group">
+                                    <label>Company</label>
+                                    <input type="text" class="company" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Position</label>
+                                    <input type="text" class="position" required>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Start Date</label>
+                                        <input type="text" class="start-date" placeholder="YYYY-MM" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>End Date</label>
+                                        <input type="text" class="end-date" placeholder="YYYY-MM or Present">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Highlights (one per line)</label>
+                                    <textarea class="highlights" rows="3"></textarea>
+                                </div>
+                                <button type="button" class="remove-btn" onclick="removeWorkExperience(this)">Remove</button>
+                            </div>
+                        </div>
+                        <button type="button" class="add-btn" onclick="addWorkExperience()">
+                            <i class="fas fa-plus"></i> Add Work Experience
+                        </button>
+                        
+                        <h3>Education</h3>
+                        <div id="education-container">
+                            <div class="education-item">
+                                <div class="form-group">
+                                    <label>Institution</label>
+                                    <input type="text" class="institution" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Degree</label>
+                                    <input type="text" class="study-type" placeholder="e.g., Bachelor" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Field of Study</label>
+                                    <input type="text" class="area" required>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Start Date</label>
+                                        <input type="text" class="start-date" placeholder="YYYY-MM">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>End Date</label>
+                                        <input type="text" class="end-date" placeholder="YYYY-MM">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>GPA</label>
+                                    <input type="text" class="gpa">
+                                </div>
+                                <button type="button" class="remove-btn" onclick="removeEducation(this)">Remove</button>
+                            </div>
+                        </div>
+                        <button type="button" class="add-btn" onclick="addEducation()">
+                            <i class="fas fa-plus"></i> Add Education
+                        </button>
+                        
+                        <h3>Skills</h3>
+                        <div id="skills-container">
+                            <div class="skill-item">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Skill Name</label>
+                                        <input type="text" class="skill-name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Level</label>
+                                        <input type="text" class="skill-level" placeholder="e.g., Advanced">
+                                    </div>
+                                </div>
+                                <button type="button" class="remove-btn" onclick="removeSkill(this)">Remove</button>
+                            </div>
+                        </div>
+                        <button type="button" class="add-btn" onclick="addSkill()">
+                            <i class="fas fa-plus"></i> Add Skill
+                        </button>
+                        
+                        <h3>Languages</h3>
+                        <div id="languages-container">
+                            <div class="language-item">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Language</label>
+                                        <input type="text" class="language-name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Fluency</label>
+                                        <input type="text" class="language-fluency" placeholder="e.g., Fluent">
+                                    </div>
+                                </div>
+                                <button type="button" class="remove-btn" onclick="removeLanguage(this)">Remove</button>
+                            </div>
+                        </div>
+                        <button type="button" class="add-btn" onclick="addLanguage()">
+                            <i class="fas fa-plus"></i> Add Language
+                        </button>
+                        
+                        <h3>Social Profiles</h3>
+                        <div id="profiles-container">
+                            <div class="profile-item">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Network</label>
+                                        <input type="text" class="profile-network" placeholder="e.g., LinkedIn" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Username</label>
+                                        <input type="text" class="profile-username" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>URL</label>
+                                    <input type="url" class="profile-url" required>
+                                </div>
+                                <button type="button" class="remove-btn" onclick="removeProfile(this)">Remove</button>
+                            </div>
+                        </div>
+                        <button type="button" class="add-btn" onclick="addProfile()">
+                            <i class="fas fa-plus"></i> Add Profile
+                        </button>
+                        
+                        <div class="buttons">
+                            <button type="button" id="generate-btn" onclick="generateResumeFromForm()">
+                                <i class="fas fa-magic"></i> Generate Resume
+                            </button>
+                            <button type="button" id="reset-form" onclick="resetForm()">
+                                <i class="fas fa-redo"></i> Reset Form
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div id="edit" class="tab-content">
+                    <textarea id="json-input" placeholder="Paste your resume JSON here..."></textarea>
+                    <div class="buttons">
+                        <button id="generate-btn" onclick="generateResume()">
+                            <i class="fas fa-magic"></i> Generate Resume
+                        </button>
+                        <button id="download-json" onclick="downloadJSON()">
+                            <i class="fas fa-download"></i> Download JSON
+                        </button>
+                        <button id="copy-json" onclick="copyJSON()">
+                            <i class="fas fa-copy"></i> Copy JSON
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="preview" class="tab-content">
+                    <pre id="json-preview"></pre>
+                </div>
+                
+                <div id="example" class="tab-content">
+                    <pre id="json-example">{
+  "basics": {
+    "name": "John Doe",
+    "label": "Software Engineer",
+    "email": "john.doe@example.com",
+    "phone": "(123) 456-7890",
+    "website": "johndoe.dev",
+    "location": {
+      "city": "San Francisco",
+      "country": "USA"
+    },
+    "profiles": [
+      {
+        "network": "LinkedIn",
+        "username": "john-doe",
+        "url": "linkedin.com/in/john-doe"
+      },
+      {
+        "network": "GitHub",
+        "username": "johndoe",
+        "url": "github.com/johndoe"
+      }
+    ]
+  },
+  "work": [
+    {
+      "company": "Tech Corp",
+      "position": "Senior Software Engineer",
+      "startDate": "2020-01",
+      "endDate": "Present",
+      "highlights": [
+        "Led team of 5 developers",
+        "Implemented new CI/CD pipeline",
+        "Reduced deployment time by 40%"
+      ]
+    },
+    {
+      "company": "Startup Inc",
+      "position": "Software Developer",
+      "startDate": "2018-06",
+      "endDate": "2019-12",
+      "highlights": [
+        "Developed core product features",
+        "Mentored junior developers",
+        "Improved application performance by 30%"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "University of Technology",
+      "area": "Computer Science",
+      "studyType": "Bachelor",
+      "startDate": "2014-09",
+      "endDate": "2018-05",
+      "gpa": "3.8"
+    }
+  ],
+  "skills": [
+    {
+      "name": "JavaScript",
+      "level": "Advanced"
+    },
+    {
+      "name": "React",
+      "level": "Advanced"
+    },
+    {
+      "name": "Node.js",
+      "level": "Intermediate"
+    }
+  ],
+  "languages": [
+    {
+      "language": "English",
+      "fluency": "Native"
+    },
+    {
+      "language": "Spanish",
+      "fluency": "Intermediate"
+    }
+  ]
+}</pre>
+                </div>
+            </div>
+            
+            <div class="output-section">
+                <div class="output-header">
+                    <h2>Resume Output</h2>
+                    <div class="output-actions">
+                        <button id="download-pdf" onclick="downloadPDF()">
+                            <i class="fas fa-file-pdf"></i> Download PDF
+                        </button>
+                        <button id="print" onclick="printResume()">
+                            <i class="fas fa-print"></i> Print
+                        </button>
+                    </div>
+                </div>
+                <div id="resume-output"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="resume.js"></script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#4361ee" stroke-width="2"/>
+  <path d="M8 12H16" stroke="#3a0ca3" stroke-width="2" stroke-linecap="round"/>
+  <path d="M12 8V16" stroke="#f72585" stroke-width="2" stroke-linecap="round"/>
+  <path d="M9 9L7 7" stroke="#7209b7" stroke-width="2" stroke-linecap="round"/>
+  <path d="M17 17L15 15" stroke="#4cc9f0" stroke-width="2" stroke-linecap="round"/>
+  <path d="M15 9L17 7" stroke="#4cc9f0" stroke-width="2" stroke-linecap="round"/>
+  <path d="M7 17L9 15" stroke="#7209b7" stroke-width="2" stroke-linecap="round"/>
+</svg>
+    <title>Universal Unit Converter</title>
+    <link rel="stylesheet" href="Unit Converter.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="color-background"></div>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-exchange-alt"></i> Universal Unit Converter</h1>
+            <p class="subtitle">Convert between different units with ease</p>
+        </div>
+        
+        <div class="converter-card">
+            <div class="tabs">
+                <button class="tab active" data-tab="weight">
+                    <i class="fas fa-weight"></i> Weight
+                </button>
+                <button class="tab" data-tab="temperature">
+                    <i class="fas fa-temperature-high"></i> Temp
+                </button>
+                <button class="tab" data-tab="currency">
+                    <i class="fas fa-money-bill-wave"></i> Currency
+                </button>
+            </div>
+            
+            <!-- Weight Converter -->
+            <div id="weight" class="converter-content active">
+                <div class="input-group">
+                    <input type="number" id="weight-value" placeholder="Enter value">
+                    <select id="weight-from">
+                        <option value="kg">Kilograms (kg)</option>
+                        <option value="g">Grams (g)</option>
+                        <option value="lb">Pounds (lb)</option>
+                        <option value="oz">Ounces (oz)</option>
+                    </select>
+                    <span class="to-text">to</span>
+                    <select id="weight-to">
+                        <option value="lb">Pounds (lb)</option>
+                        <option value="kg">Kilograms (kg)</option>
+                        <option value="g">Grams (g)</option>
+                        <option value="oz">Ounces (oz)</option>
+                    </select>
+                    <button id="weight-convert" class="convert-btn">
+                        <i class="fas fa-calculator"></i> Convert
+                    </button>
+                </div>
+                <div class="result" id="weight-result"></div>
+            </div>
+            
+            <!-- Temperature Converter -->
+            <div id="temperature" class="converter-content">
+                <div class="input-group">
+                    <input type="number" id="temp-value" placeholder="Enter value">
+                    <select id="temp-from">
+                        <option value="c">Celsius (°C)</option>
+                        <option value="f">Fahrenheit (°F)</option>
+                        <option value="k">Kelvin (K)</option>
+                    </select>
+                    <span class="to-text">to</span>
+                    <select id="temp-to">
+                        <option value="f">Fahrenheit (°F)</option>
+                        <option value="c">Celsius (°C)</option>
+                        <option value="k">Kelvin (K)</option>
+                    </select>
+                    <button id="temp-convert" class="convert-btn">
+                        <i class="fas fa-calculator"></i> Convert
+                    </button>
+                </div>
+                <div class="result" id="temp-result"></div>
+            </div>
+            
+            <!-- Currency Converter -->
+            <div id="currency" class="converter-content">
+                <div class="input-group">
+                    <input type="number" id="currency-value" placeholder="Enter value">
+                    <select id="currency-from">
+                        <option value="USD">US Dollar (USD)</option>
+                        <option value="EUR">Euro (EUR)</option>
+                        <option value="GBP">British Pound (GBP)</option>
+                        <option value="JPY">Japanese Yen (JPY)</option>
+                        <option value="CAD">Canadian Dollar (CAD)</option>
+                        <option value="AUD">Australian Dollar (AUD)</option>
+                        <option value="INR">Indian Rupee (INR)</option>
+                    </select>
+                    <span class="to-text">to</span>
+                    <select id="currency-to">
+                        <option value="INR">Indian Rupee (INR)</option>
+                        <option value="USD">US Dollar (USD)</option>
+                        <option value="EUR">Euro (EUR)</option>
+                        <option value="GBP">British Pound (GBP)</option>
+                        <option value="JPY">Japanese Yen (JPY)</option>
+                        <option value="CAD">Canadian Dollar (CAD)</option>
+                        <option value="AUD">Australian Dollar (AUD)</option>
+                    </select>
+                    <button id="currency-convert" class="convert-btn">
+                        <i class="fas fa-calculator"></i> Convert
+                    </button>
+                </div>
+                <div class="result" id="currency-result"></div>
+                <div class="note">
+                    <i class="fas fa-info-circle"></i> Currency rates are updated once daily and may not reflect real-time values.
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Made with <i class="fas fa-heart"></i> by Sabari | Universal Unit Converter</p>
+        </div>
+    </div>
+
+    <script src="Unit Converter.js"></script>
+</body>
+</html>

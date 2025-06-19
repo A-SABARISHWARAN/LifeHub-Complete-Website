@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#4361ee" stroke-width="2"/>
+  <path d="M8 12H16" stroke="#3a0ca3" stroke-width="2" stroke-linecap="round"/>
+  <path d="M12 8V16" stroke="#f72585" stroke-width="2" stroke-linecap="round"/>
+  <path d="M9 9L7 7" stroke="#7209b7" stroke-width="2" stroke-linecap="round"/>
+  <path d="M17 17L15 15" stroke="#4cc9f0" stroke-width="2" stroke-linecap="round"/>
+  <path d="M15 9L17 7" stroke="#4cc9f0" stroke-width="2" stroke-linecap="round"/>
+  <path d="M7 17L9 15" stroke="#7209b7" stroke-width="2" stroke-linecap="round"/>
+</svg>
+    <title>Daily Goal Tracker</title>
+    <link rel="stylesheet" href="Daily Goal tracker.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-bullseye"></i> Daily Goal Tracker</h1>
+            <p class="subtitle">Achieve more every day</p>
+            <div class="date-display" id="currentDate"></div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+                <span class="progress-text" id="progressText">0% Complete</span>
+            </div>
+        </header>
+
+        <div class="stats-container">
+            <div class="stat-box">
+                <i class="fas fa-calendar-check"></i>
+                <span id="totalGoals">0</span>
+                <p>Total Goals</p>
+            </div>
+            <div class="stat-box">
+                <i class="fas fa-check-circle"></i>
+                <span id="completedGoals">0</span>
+                <p>Completed</p>
+            </div>
+            <div class="stat-box">
+                <i class="fas fa-fire"></i>
+                <span id="streakCount">0</span>
+                <p>Day Streak</p>
+            </div>
+            <div class="stat-box">
+                <i class="fas fa-calendar-alt"></i>
+                <span id="monthCompletion">0%</span>
+                <p>Month Progress</p>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="goals">Goals</button>
+            <button class="tab-btn" data-tab="calendar">Calendar</button>
+            <button class="tab-btn" data-tab="history">History</button>
+        </div>
+
+        <div class="tab-content active" id="goals-tab">
+            <div class="input-container">
+                <input type="text" id="goalInput" placeholder="Add a new goal...">
+                <button id="addGoalBtn"><i class="fas fa-plus"></i> Add Goal</button>
+            </div>
+
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All Goals</button>
+                <button class="filter-btn" data-filter="active">Active</button>
+                <button class="filter-btn" data-filter="completed">Completed</button>
+            </div>
+
+            <ul class="goal-list" id="goalList"></ul>
+
+            <div class="action-buttons">
+                <button id="exportPdfBtn"><i class="fas fa-file-pdf"></i> Export to PDF</button>
+                <button id="clearCompletedBtn"><i class="fas fa-trash"></i> Clear Completed</button>
+            </div>
+        </div>
+
+        <div class="tab-content" id="calendar-tab">
+            <div class="calendar-header">
+                <button id="prevMonthBtn"><i class="fas fa-chevron-left"></i></button>
+                <h2 id="currentMonthYear"></h2>
+                <button id="nextMonthBtn"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div class="calendar-grid" id="calendarGrid"></div>
+            <div class="calendar-legend">
+                <div><span class="legend-box completed-day"></span> Completed Day</div>
+                <div><span class="legend-box partial-day"></span> Partial Day</div>
+                <div><span class="legend-box empty-day"></span> No Goals</div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="history-tab">
+            <div class="history-container" id="historyContainer"></div>
+        </div>
+
+        <div class="motivational-quote">
+            <p id="quoteText">"The secret of getting ahead is getting started."</p>
+            <p id="quoteAuthor">- Mark Twain</p>
+        </div>
+    </div>
+
+    <script src="Dai;y Goal tracker.js"></script>
+</body>
+</html>

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#4361ee" stroke-width="2"/>
+  <path d="M8 12H16" stroke="#3a0ca3" stroke-width="2" stroke-linecap="round"/>
+  <path d="M12 8V16" stroke="#f72585" stroke-width="2" stroke-linecap="round"/>
+  <path d="M9 9L7 7" stroke="#7209b7" stroke-width="2" stroke-linecap="round"/>
+  <path d="M17 17L15 15" stroke="#4cc9f0" stroke-width="2" stroke-linecap="round"/>
+  <path d="M15 9L17 7" stroke="#4cc9f0" stroke-width="2" stroke-linecap="round"/>
+  <path d="M7 17L9 15" stroke="#7209b7" stroke-width="2" stroke-linecap="round"/>
+</svg>
+    <title>Credits - LifeHub Micro Tools Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gradient: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #f8faff;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 60px 0 30px;
+            background: var(--gradient);
+            color: white;
+            margin-bottom: 40px;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 10px 30px rgba(67, 97, 238, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="%23f8faff" opacity=".25"/><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" fill="%23f8faff" opacity=".5"/><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%23f8faff"/></svg>');
+            background-size: cover;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            font-weight: 800;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .tagline {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 0;
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .credits-intro {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 60px;
+        }
+        
+        h2 {
+            font-size: 2rem;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+        
+        p {
+            color: #555;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .tool-credits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .credit-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-left: 5px solid var(--primary);
+        }
+        
+        .credit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+        }
+        
+        .tool-title {
+            font-size: 1.4rem;
+            color: var(--secondary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .tool-title i {
+            margin-right: 15px;
+            color: var(--primary);
+            font-size: 1.8rem;
+        }
+        
+        .credit-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .credit-list li {
+            margin-bottom: 12px;
+            padding-left: 10px;
+            border-left: 2px solid #eee;
+            transition: all 0.3s;
+        }
+        
+        .credit-list li:hover {
+            border-left: 2px solid var(--primary);
+        }
+        
+        .credit-list a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .credit-list a:hover {
+            color: var(--secondary);
+            text-decoration: underline;
+        }
+        
+        .special-thanks {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin: 60px 0;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+        
+        .heart-icon {
+            color: var(--accent);
+            font-size: 2rem;
+            margin-bottom: 20px;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        footer {
+            background: var(--dark);
+            color: #aaa;
+            padding: 60px 0 30px;
+            border-radius: 20px 20px 0 0;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #444;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            header {
+                padding: 40px 20px 30px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .tool-credits {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo"><i class="fas fa-puzzle-piece"></i> LifeHub</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="features.html">Features</a>
+                <a href="about.html">About</a>
+                <a href="credits.html">Credits</a>
+            </div>
+        </nav>
+        <h1>Credits & Acknowledgments</h1>
+        <p class="tagline">Recognizing the amazing resources that helped build LifeHub</p>
+    </header>
+    
+    <div class="container">
+        <section class="credits-intro">
+            <h2>Gratitude in Every Line</h2>
+            <p>LifeHub stands on the shoulders of incredible open-source projects, APIs, and creative resources. I am proud to acknowledge and thank these wonderful tools and their creators.</p>
+        </section>
+        
+        <section>
+            <div class="tool-credits">
+                <div class="credit-card">
+                    <h3 class="tool-title"><i class="fas fa-music"></i> Audio Trimmer</h3>
+                    <ul class="credit-list">
+                        <li><a href="https://wavesurfer-js.org/" target="_blank">Wavesurfer.js</a> - Audio waveform visualization</li>
+                        <li><a href="https://github.com/ffmpegwasm/ffmpeg.wasm" target="_blank">FFmpeg.wasm</a> - Audio processing in browser</li>
+                        <li><a href="https://icons8.com/" target="_blank">Icons8</a> - Audio-related icons</li>
+                    </ul>
+                </div>
+                
+                <div class="credit-card">
+                    <h3 class="tool-title"><i class="fas fa-clock"></i> Event Countdown</h3>
+                    <ul class="credit-list">
+                        <li><a href="https://momentjs.com/" target="_blank">Moment.js</a> - Date/time calculations</li>
+                        <li><a href="https://animate.style/" target="_blank">Animate.css</a> - Countdown animations</li>
+                        <li><a href="https://fonts.google.com/" target="_blank">Google Fonts</a> - Typography</li>
+                    </ul>
+                </div>
+                
+                <div class="credit-card">
+                    <h3 class="tool-title"><i class="fas fa-tasks"></i> Goal Tracker</h3>
+                    <ul class="credit-list">
+                        <li><a href="https://chartjs.org/" target="_blank">Chart.js</a> - Progress visualization</li>
+                        <li><a href="https://localforage.github.io/localForage/" target="_blank">localForage</a> - Client-side storage</li>
+                        <li><a href="https://fontawesome.com/" target="_blank">Font Awesome</a> - Habit tracking icons</li>
+                    </ul>
+                </div>
+                
+                <div class="credit-card">
+                    <h3 class="tool-title"><i class="fas fa-brain"></i> Focus Timer</h3>
+                    <ul class="credit-list">
+                        <li><a href="https://howlerjs.com/" target="_blank">Howler.js</a> - Ambient sound effects</li>
+                        <li><a href="https://github.com/tomhermans/audio-timer" target="_blank">Audio Timer</a> - Precise timing</li>
+                        <li><a href="https://unsplash.com/" target="_blank">Unsplash</a> - Background images</li>
+                    </ul>
+                </div>
+                
+                <div class="credit-card">
+                    <h3 class="tool-title"><i class="fas fa-file-pdf"></i> Text to PDF</h3>
+                    <ul class="credit-list">
+                        <li><a href="https://github.com/parallax/jsPDF" target="_blank">jsPDF</a> - PDF generation</li>
+                        <li><a href="https://github.com/niklasvh/html2canvas" target="_blank">html2canvas</a> - HTML to image</li>
+                        <li><a href="https://www.npmjs.com/package/pdf-lib" target="_blank">PDF-Lib</a> - PDF manipulation</li>
+                    </ul>
+                </div>
+                
+                <div class="credit-card">
+                    <h3 class="tool-title"><i class="fas fa-ruler-combined"></i> Unit Converter</h3>
+                    <ul class="credit-list">
+                        <li><a href="https://github.com/ben-ng/convert-units" target="_blank">Convert-Units</a> - Conversion logic</li>
+                        <li><a href="https://exchangerate.host/" target="_blank">ExchangeRate API</a> - Currency rates</li>
+                        <li><a href="https://www.npmjs.com/package/numeral" target="_blank">Numeral.js</a> - Number formatting</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <section class="special-thanks">
+            <div class="heart-icon">
+                <i class="fas fa-heart"></i>
+            </div>
+            <h2>Special Thanks</h2>
+            <p>To the open-source community, documentation writers, and all the creators who share their knowledge freely. Your work makes projects like LifeHub possible.</p>
+            <p>Extra gratitude to <a href="https://stackoverflow.com/" target="_blank">Stack Overflow</a> for those "aha!" moments when code just wouldn't cooperate.</p>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>LifeHub</h3>
+                    <p>Your all-in-one portal for essential digital tools designed to make everyday tasks simpler.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>LifeHub</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="features.html">Features</a></li>
+                        <li><a href="credit.html">Credits</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 LifeHub. All rights reserved. Built with gratitude.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

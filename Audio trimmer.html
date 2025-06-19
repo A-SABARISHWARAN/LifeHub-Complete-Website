@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#4361ee" stroke-width="2"/>
+  <path d="M8 12H16" stroke="#3a0ca3" stroke-width="2" stroke-linecap="round"/>
+  <path d="M12 8V16" stroke="#f72585" stroke-width="2" stroke-linecap="round"/>
+  <path d="M9 9L7 7" stroke="#7209b7" stroke-width="2" stroke-linecap="round"/>
+  <path d="M17 17L15 15" stroke="#4cc9f0" stroke-width="2" stroke-linecap="round"/>
+  <path d="M15 9L17 7" stroke="#4cc9f0" stroke-width="2" stroke-linecap="round"/>
+  <path d="M7 17L9 15" stroke="#7209b7" stroke-width="2" stroke-linecap="round"/>
+</svg>
+    <title>Cutodia - Online Audio Trimmer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --primary-dark: #5649c0;
+            --primary-light: #a29bfe;
+            --secondary: #00cec9;
+            --secondary-dark: #00a8a5;
+            --accent-1: #fd79a8;
+            --accent-2: #fdcb6e;
+            --accent-3: #55efc4;
+            --light: #f8f9fa;
+            --dark: #2d3436;
+            --gray: #636e72;
+            --light-gray: #dfe6e9;
+            --success: #00b894;
+            --danger: #d63031;
+            --warning: #f39c12;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f6fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .logo i {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--accent-1));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-right: 1rem;
+        }
+
+        .logo h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), var(--accent-1), var(--accent-3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        header p {
+            color: var(--gray);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .upload-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid var(--light-gray);
+        }
+
+        .upload-container:hover {
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .upload-area {
+            border: 2px dashed var(--gray);
+            border-radius: 8px;
+            padding: 3rem 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+            position: relative;
+            background-color: rgba(108, 92, 231, 0.03);
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary);
+            background-color: rgba(108, 92, 231, 0.05);
+        }
+
+        .upload-area i {
+            font-size: 3rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .upload-area h3 {
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .upload-area p {
+            color: var(--gray);
+        }
+
+        #file-input {
+            display: none;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--secondary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-accent {
+            background-color: var(--accent-1);
+            color: white;
+        }
+
+        .btn-accent:hover {
+            background-color: #e84393;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            box-shadow: none;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .waveform-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: none;
+            border: 1px solid var(--light-gray);
+        }
+
+        #waveform {
+            width: 100%;
+            height: 150px;
+            margin-bottom: 1rem;
+            cursor: pointer;
+        }
+
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .trim-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .range-inputs {
+            display: flex;
+            gap: 1.5rem;
+            flex-grow: 1;
+            max-width: 600px;
+        }
+
+        .range-group {
+            flex: 1;
+            position: relative;
+        }
+
+        .range-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            -webkit-appearance: none;
+            background: var(--light-gray);
+            border-radius: 5px;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        input[type="range"]:hover {
+            background: #d5d8dc;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            background: var(--primary-dark);
+        }
+
+        #start-range::-webkit-slider-thumb {
+            background: var(--accent-1);
+        }
+
+        #start-range::-webkit-slider-thumb:hover {
+            background: #e84393;
+        }
+
+        #end-range::-webkit-slider-thumb {
+            background: var(--accent-3);
+        }
+
+        #end-range::-webkit-slider-thumb:hover {
+            background: #00b894;
+        }
+
+        .preview-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: none;
+            border: 1px solid var(--light-gray);
+        }
+
+        .audio-player {
+            width: 100%;
+            margin-top: 1rem;
+            border-radius: 8px;
+        }
+
+        .download-section {
+            text-align: center;
+            display: none;
+            margin-bottom: 2rem;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(108, 92, 231, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: var(--gray);
+            font-size: 0.9rem;
+            padding: 1rem;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .color-themes {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .theme-btn {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            border: 2px solid white;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .theme-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .theme-purple {
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+        }
+
+        .theme-teal {
+            background: linear-gradient(45deg, #00cec9, #55efc4);
+        }
+
+        .theme-pink {
+            background: linear-gradient(45deg, #fd79a8, #e84393);
+        }
+
+        .theme-sunset {
+            background: linear-gradient(45deg, #fdcb6e, #e17055);
+        }
+
+        .theme-forest {
+            background: linear-gradient(45deg, #00b894, #0984e3);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .logo h1 {
+                font-size: 2rem;
+            }
+
+            .trim-controls {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .range-inputs {
+                width: 100%;
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-music"></i>
+                <h1>Cutodia</h1>
+            </div>
+            <p>Trim your audio files online for free. No installation required. Just upload, trim, and download!</p>
+            
+            <div class="color-themes">
+                <div class="theme-btn theme-purple" onclick="setTheme('purple')"></div>
+                <div class="theme-btn theme-teal" onclick="setTheme('teal')"></div>
+                <div class="theme-btn theme-pink" onclick="setTheme('pink')"></div>
+                <div class="theme-btn theme-sunset" onclick="setTheme('sunset')"></div>
+                <div class="theme-btn theme-forest" onclick="setTheme('forest')"></div>
+            </div>
+        </header>
+
+        <div class="upload-container">
+            <input type="file" id="file-input" accept="audio/*">
+            <div class="upload-area" id="upload-area">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <h3>Upload Audio File</h3>
+                <p>Click to browse or drag and drop your audio file here</p>
+            </div>
+            <div class="controls">
+                <button id="trim-btn" class="btn btn-primary" disabled>
+                    <i class="fas fa-cut"></i> Trim Audio
+                </button>
+                <button id="reset-btn" class="btn btn-outline" disabled>
+                    <i class="fas fa-redo"></i> Reset
+                </button>
+            </div>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Processing your audio file...</p>
+        </div>
+
+        <div class="waveform-container" id="waveform-container">
+            <h2>Trim Your Audio</h2>
+            <p>Adjust the sliders to select the portion you want to keep</p>
+            <div id="waveform"></div>
+            <div class="time-display">
+                <span id="start-time">00:00</span>
+                <span id="end-time">00:00</span>
+                <span id="duration">00:00</span>
+            </div>
+            <div class="trim-controls">
+                <div class="range-inputs">
+                    <div class="range-group">
+                        <label for="start-range">Start Time</label>
+                        <input type="range" id="start-range" min="0" max="100" value="0" step="0.1">
+                    </div>
+                    <div class="range-group">
+                        <label for="end-range">End Time</label>
+                        <input type="range" id="end-range" min="0" max="100" value="100" step="0.1">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="preview-container" id="preview-container">
+            <h2>Preview</h2>
+            <p>Listen to your trimmed audio before downloading</p>
+            <audio controls class="audio-player" id="preview-audio"></audio>
+        </div>
+
+        <div class="download-section" id="download-section">
+            <button id="download-btn" class="btn btn-accent">
+                <i class="fas fa-download"></i> Download Trimmed Audio
+            </button>
+        </div>
+
+        <footer>
+            <p>Cutodia &copy; 2025 | Online Audio Trimmer Tool</p>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/6.6.3/wavesurfer.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const fileInput = document.getElementById('file-input');
+            const uploadArea = document.getElementById('upload-area');
+            const trimBtn = document.getElementById('trim-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            const downloadBtn = document.getElementById('download-btn');
+            const waveformContainer = document.getElementById('waveform-container');
+            const previewContainer = document.getElementById('preview-container');
+            const downloadSection = document.getElementById('download-section');
+            const loadingIndicator = document.getElementById('loading');
+            const startTimeDisplay = document.getElementById('start-time');
+            const endTimeDisplay = document.getElementById('end-time');
+            const durationDisplay = document.getElementById('duration');
+            const startRange = document.getElementById('start-range');
+            const endRange = document.getElementById('end-range');
+            const previewAudio = document.getElementById('preview-audio');
+
+            // Variables
+            let wavesurfer;
+            let audioFile = null;
+            let audioBlob = null;
+            let audioContext;
+            let audioBuffer;
+            let trimmedAudioBlob = null;
+            let currentTheme = 'purple';
+
+            // Initialize WaveSurfer
+            function initWaveSurfer() {
+                wavesurfer = WaveSurfer.create({
+                    container: '#waveform',
+                    waveColor: getWaveColor(),
+                    progressColor: getProgressColor(),
+                    cursorColor: getCursorColor(),
+                    cursorWidth: 2,
+                    barWidth: 2,
+                    barRadius: 3,
+                    barGap: 2,
+                    height: 150,
+                    responsive: true,
+                    normalize: true,
+                    partialRender: true
+                });
+
+                wavesurfer.on('ready', function() {
+                    loadingIndicator.style.display = 'none';
+                    waveformContainer.style.display = 'block';
+                    trimBtn.disabled = false;
+                    
+                    // Set the max values for the range inputs
+                    const duration = wavesurfer.getDuration();
+                    startRange.max = duration;
+                    endRange.max = duration;
+                    endRange.value = duration;
+                    
+                    updateTimeDisplays(0, duration, duration);
+                });
+
+                wavesurfer.on('audioprocess', function() {
+                    updateTimeDisplays(wavesurfer.getCurrentTime(), parseFloat(endRange.value), wavesurfer.getDuration());
+                });
+
+                wavesurfer.on('seek', function() {
+                    updateTimeDisplays(wavesurfer.getCurrentTime(), parseFloat(endRange.value), wavesurfer.getDuration());
+                });
+
+                // Update waveform position when range changes
+                startRange.addEventListener('input', function() {
+                    const startValue = parseFloat(startRange.value);
+                    const endValue = parseFloat(endRange.value);
+                    
+                    if (startValue >= endValue) {
+                        startRange.value = endValue - 0.1;
+                        return;
+                    }
+                    
+                    wavesurfer.seekTo(startValue / wavesurfer.getDuration());
+                    updateTimeDisplays(startValue, endValue, wavesurfer.getDuration());
+                });
+
+                endRange.addEventListener('input', function() {
+                    const startValue = parseFloat(startRange.value);
+                    const endValue = parseFloat(endRange.value);
+                    
+                    if (endValue <= startValue) {
+                        endRange.value = startValue + 0.1;
+                        return;
+                    }
+                    
+                    updateTimeDisplays(startValue, endValue, wavesurfer.getDuration());
+                });
+            }
+
+            // Theme color getters
+            function getWaveColor() {
+                switch(currentTheme) {
+                    case 'teal': return '#00cec9';
+                    case 'pink': return '#fd79a8';
+                    case 'sunset': return '#fdcb6e';
+                    case 'forest': return '#00b894';
+                    default: return '#6c5ce7';
+                }
+            }
+
+            function getProgressColor() {
+                switch(currentTheme) {
+                    case 'teal': return '#55efc4';
+                    case 'pink': return '#e84393';
+                    case 'sunset': return '#e17055';
+                    case 'forest': return '#0984e3';
+                    default: return '#a29bfe';
+                }
+            }
+
+            function getCursorColor() {
+                switch(currentTheme) {
+                    case 'teal': return '#00a8a5';
+                    case 'pink': return '#d63031';
+                    case 'sunset': return '#d63031';
+                    case 'forest': return '#0984e3';
+                    default: return '#5649c0';
+                }
+            }
+
+            // Format time (seconds to MM:SS)
+            function formatTime(seconds) {
+                const minutes = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }
+
+            // Update time displays
+            function updateTimeDisplays(currentTime, endTime, duration) {
+                startTimeDisplay.textContent = formatTime(currentTime);
+                endTimeDisplay.textContent = formatTime(endTime);
+                durationDisplay.textContent = formatTime(duration);
+            }
+
+            // Handle file upload
+            uploadArea.addEventListener('click', function() {
+                fileInput.click();
+            });
+
+            uploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                uploadArea.style.borderColor = getWaveColor();
+                uploadArea.style.backgroundColor = 'rgba(108, 92, 231, 0.1)';
+            });
+
+            uploadArea.addEventListener('dragleave', function() {
+                uploadArea.style.borderColor = 'var(--gray)';
+                uploadArea.style.backgroundColor = 'rgba(108, 92, 231, 0.03)';
+            });
+
+            uploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                uploadArea.style.borderColor = 'var(--gray)';
+                uploadArea.style.backgroundColor = 'rgba(108, 92, 231, 0.03)';
+                
+                if (e.dataTransfer.files.length) {
+                    handleFile(e.dataTransfer.files[0]);
+                }
+            });
+
+            fileInput.addEventListener('change', function() {
+                if (fileInput.files.length) {
+                    handleFile(fileInput.files[0]);
+                }
+            });
+
+            function handleFile(file) {
+                if (!file.type.match('audio.*')) {
+                    alert('Please select an audio file');
+                    return;
+                }
+
+                audioFile = file;
+                loadingIndicator.style.display = 'block';
+                resetBtn.disabled = false;
+
+                // Initialize WaveSurfer if not already done
+                if (!wavesurfer) {
+                    initWaveSurfer();
+                } else {
+                    wavesurfer.destroy();
+                    initWaveSurfer();
+                }
+
+                // Load the audio file
+                wavesurfer.load(URL.createObjectURL(file));
+            }
+
+            // Trim button event listener
+            trimBtn.addEventListener('click', function() {
+                if (!wavesurfer || !audioFile) return;
+
+                loadingIndicator.style.display = 'block';
+                
+                const startTime = parseFloat(startRange.value);
+                const endTime = parseFloat(endRange.value);
+                
+                // Create an audio context
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // Read the file as array buffer
+                const fileReader = new FileReader();
+                fileReader.readAsArrayBuffer(audioFile);
+                
+                fileReader.onload = function(e) {
+                    audioContext.decodeAudioData(e.target.result)
+                        .then(function(buffer) {
+                            audioBuffer = buffer;
+                            return trimAudio(buffer, startTime, endTime);
+                        })
+                        .then(function(trimmedBuffer) {
+                            // Create a blob from the trimmed buffer
+                            const audioBlob = bufferToWave(trimmedBuffer, trimmedBuffer.length);
+                            trimmedAudioBlob = audioBlob;
+                            
+                            // Create a URL for the trimmed audio
+                            const audioUrl = URL.createObjectURL(audioBlob);
+                            
+                            // Set the preview audio source
+                            previewAudio.src = audioUrl;
+                            
+                            // Show the preview and download sections
+                            loadingIndicator.style.display = 'none';
+                            previewContainer.style.display = 'block';
+                            downloadSection.style.display = 'block';
+                        })
+                        .catch(function(error) {
+                            console.error('Error:', error);
+                            loadingIndicator.style.display = 'none';
+                            alert('An error occurred while trimming the audio. Please try again.');
+                        });
+                };
+            });
+
+            // Trim audio function
+            function trimAudio(buffer, startTime, endTime) {
+                return new Promise(function(resolve) {
+                    const length = endTime - startTime;
+                    const sampleRate = buffer.sampleRate;
+                    
+                    // Create a new buffer for the trimmed audio
+                    const trimmedBuffer = audioContext.createBuffer(
+                        buffer.numberOfChannels,
+                        length * sampleRate,
+                        sampleRate
+                    );
+                    
+                    // Copy the data for each channel
+                    for (let channel = 0; channel < buffer.numberOfChannels; channel++) {
+                        const channelData = buffer.getChannelData(channel);
+                        const trimmedData = trimmedBuffer.getChannelData(channel);
+                        
+                        // Calculate the start and end positions in samples
+                        const startOffset = startTime * sampleRate;
+                        const endOffset = endTime * sampleRate;
+                        
+                        // Copy the data
+                        for (let i = startOffset; i < endOffset; i++) {
+                            trimmedData[i - startOffset] = channelData[i];
+                        }
+                    }
+                    
+                    resolve(trimmedBuffer);
+                });
+            }
+
+            // Convert buffer to WAV blob
+            function bufferToWave(buffer, len) {
+                const numOfChan = buffer.numberOfChannels;
+                const length = len * numOfChan * 2 + 44;
+                const bufferData = new ArrayBuffer(length);
+                const view = new DataView(bufferData);
+                const channels = [];
+                let i;
+                let sample;
+                let offset = 0;
+                let pos = 0;
+                
+                // Write WAVE header
+                setUint32(0x46464952); // "RIFF"
+                setUint32(length - 8); // file length - 8
+                setUint32(0x45564157); // "WAVE"
+                
+                setUint32(0x20746d66); // "fmt " chunk
+                setUint32(16); // length = 16
+                setUint16(1); // PCM (uncompressed)
+                setUint16(numOfChan);
+                setUint32(buffer.sampleRate);
+                setUint32(buffer.sampleRate * 2 * numOfChan); // avg. bytes/sec
+                setUint16(numOfChan * 2); // block-align
+                setUint16(16); // 16-bit (hardcoded in this demo)
+                
+                setUint32(0x61746164); // "data" - chunk
+                setUint32(length - pos - 4); // chunk length
+                
+                // Write interleaved data
+                for (i = 0; i < buffer.numberOfChannels; i++) {
+                    channels.push(buffer.getChannelData(i));
+                }
+                
+                while (pos < length) {
+                    for (i = 0; i < numOfChan; i++) {
+                        // Interleave channels
+                        sample = Math.max(-1, Math.min(1, channels[i][offset])); // clamp
+                        sample = (0.5 + sample < 0 ? sample * 32768 : sample * 32767)|0; // scale to 16-bit signed int
+                        view.setInt16(pos, sample, true); // write 16-bit sample
+                        pos += 2;
+                    }
+                    offset++; // next source sample
+                }
+                
+                // Create Blob
+                return new Blob([bufferData], { type: 'audio/wav' });
+                
+                function setUint16(data) {
+                    view.setUint16(pos, data, true);
+                    pos += 2;
+                }
+                
+                function setUint32(data) {
+                    view.setUint32(pos, data, true);
+                    pos += 4;
+                }
+            }
+
+            // Download button event listener
+            downloadBtn.addEventListener('click', function() {
+                if (!trimmedAudioBlob) return;
+                
+                const url = URL.createObjectURL(trimmedAudioBlob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = `trimmed_${audioFile.name.replace(/\.[^/.]+$/, '')}.wav`;
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(function() {
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                }, 100);
+            });
+
+            // Reset button event listener
+            resetBtn.addEventListener('click', function() {
+                // Reset everything
+                if (wavesurfer) {
+                    wavesurfer.destroy();
+                    wavesurfer = null;
+                }
+                
+                audioFile = null;
+                trimmedAudioBlob = null;
+                
+                // Reset UI
+                fileInput.value = '';
+                waveformContainer.style.display = 'none';
+                previewContainer.style.display = 'none';
+                downloadSection.style.display = 'none';
+                trimBtn.disabled = true;
+                resetBtn.disabled = true;
+                
+                // Reset range inputs
+                startRange.value = 0;
+                endRange.value = 100;
+                
+                // Reset preview audio
+                previewAudio.src = '';
+                previewAudio.load();
+            });
+
+            // Theme switcher
+            window.setTheme = function(theme) {
+                currentTheme = theme;
+                
+                // Update waveform colors if it exists
+                if (wavesurfer) {
+                    wavesurfer.setOptions({
+                        waveColor: getWaveColor(),
+                        progressColor: getProgressColor(),
+                        cursorColor: getCursorColor()
+                    });
+                }
+                
+                // Update upload area hover color
+                const style = document.createElement('style');
+                style.innerHTML = `
+                    .upload-area:hover {
+                        border-color: ${getWaveColor()};
+                        background-color: rgba(${hexToRgb(getWaveColor())}, 0.05);
+                    }
+                    
+                    .btn-primary {
+                        background-color: ${getWaveColor()};
+                    }
+                    
+                    .btn-primary:hover {
+                        background-color: ${getCursorColor()};
+                    }
+                    
+                    .btn-secondary {
+                        background-color: ${getProgressColor()};
+                    }
+                    
+                    .btn-secondary:hover {
+                        background-color: ${getCursorColor()};
+                    }
+                    
+                    .btn-outline {
+                        border-color: ${getWaveColor()};
+                        color: ${getWaveColor()};
+                    }
+                    
+                    .btn-outline:hover {
+                        background-color: ${getWaveColor()};
+                        color: white;
+                    }
+                    
+                    .spinner {
+                        border-top-color: ${getWaveColor()};
+                    }
+                `;
+                
+                // Remove old theme style if it exists
+                const oldStyle = document.getElementById('theme-style');
+                if (oldStyle) {
+                    oldStyle.remove();
+                }
+                
+                style.id = 'theme-style';
+                document.head.appendChild(style);
+            };
+
+            // Helper function to convert hex to rgb
+            function hexToRgb(hex) {
+                // Remove # if present
+                hex = hex.replace('#', '');
+                
+                // Convert to rgb
+                const r = parseInt(hex.substring(0, 2), 16);
+                const g = parseInt(hex.substring(2, 4), 16);
+                const b = parseInt(hex.substring(4, 6), 16);
+                
+                return `${r}, ${g}, ${b}`;
+            }
+
+            // Initialize with default theme
+            setTheme('purple');
+        });
+    </script>
+</body>
+</html>

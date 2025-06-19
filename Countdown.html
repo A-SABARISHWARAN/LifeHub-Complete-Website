@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#4361ee" stroke-width="2"/>
+  <path d="M8 12H16" stroke="#3a0ca3" stroke-width="2" stroke-linecap="round"/>
+  <path d="M12 8V16" stroke="#f72585" stroke-width="2" stroke-linecap="round"/>
+  <path d="M9 9L7 7" stroke="#7209b7" stroke-width="2" stroke-linecap="round"/>
+  <path d="M17 17L15 15" stroke="#4cc9f0" stroke-width="2" stroke-linecap="round"/>
+  <path d="M15 9L17 7" stroke="#4cc9f0" stroke-width="2" stroke-linecap="round"/>
+  <path d="M7 17L9 15" stroke="#7209b7" stroke-width="2" stroke-linecap="round"/>
+</svg>
+    <title>Event Countdown Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #f72585;
+            --danger: #ef233c;
+            --completed: #4ade80;
+            --overdue: #f43f5e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--warning));
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-section {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 2rem;
+            height: fit-content;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.95rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 0.85rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: #f8fafc;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+            background-color: white;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .checkbox-group input {
+            width: auto;
+            transform: scale(1.2);
+            accent-color: var(--warning);
+        }
+
+        .checkbox-group label {
+            margin-bottom: 0;
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.85rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        button:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .countdowns-section {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1.25rem;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #64748b;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .countdown-list {
+            max-height: 600px;
+            overflow-y: auto;
+            padding-right: 0.75rem;
+        }
+
+        .countdown-item {
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            transition: all 0.3s ease;
+            border-left: 5px solid var(--accent);
+            overflow: hidden;
+        }
+
+        .countdown-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .countdown-item.important {
+            border-left-color: var(--warning);
+            background: linear-gradient(90deg, rgba(247, 37, 133, 0.05) 0%, rgba(248, 249, 250, 1) 30%);
+        }
+
+        .countdown-item.completed {
+            border-left-color: var(--completed);
+            background: linear-gradient(90deg, rgba(74, 222, 128, 0.05) 0%, rgba(248, 249, 250, 1) 30%);
+        }
+
+        .countdown-item.overdue {
+            border-left-color: var(--overdue);
+            background: linear-gradient(90deg, rgba(244, 63, 94, 0.05) 0%, rgba(248, 249, 250, 1) 30%);
+        }
+
+        .countdown-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .event-name {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--dark);
+        }
+
+        .event-date {
+            color: #64748b;
+            font-size: 0.9rem;
+            background-color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 20px;
+            font-weight: 500;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .countdown-timer {
+            display: flex;
+            gap: 1rem;
+            margin: 1.25rem 0;
+            flex-wrap: wrap;
+        }
+
+        .time-unit {
+            text-align: center;
+            background-color: white;
+            padding: 0.75rem 0.5rem;
+            border-radius: 8px;
+            min-width: 70px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .time-unit:hover {
+            transform: scale(1.05);
+        }
+
+        .time-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .time-label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background-color: #e2e8f0;
+            border-radius: 5px;
+            margin-top: 1.25rem;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--primary));
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-bar.completed {
+            background: linear-gradient(90deg, var(--completed), #22c55e);
+        }
+
+        .progress-bar.overdue {
+            background: linear-gradient(90deg, var(--overdue), #e11d48);
+        }
+
+        .important-tag {
+            position: absolute;
+            top: -8px;
+            right: 15px;
+            background-color: var(--warning);
+            color: white;
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+
+        .status-tag {
+            position: absolute;
+            top: -8px;
+            left: 15px;
+            color: white;
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+
+        .status-tag.completed {
+            background-color: var(--completed);
+        }
+
+        .status-tag.overdue {
+            background-color: var(--overdue);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #64748b;
+            background-color: #f8fafc;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+
+        .empty-state i {
+            font-size: 3.5rem;
+            color: #cbd5e1;
+            margin-bottom: 1.5rem;
+            opacity: 0.7;
+        }
+
+        .empty-state p {
+            font-size: 1.1rem;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .notification-badge {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background-color: var(--warning);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            cursor: pointer;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .notification-badge:hover {
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .notification-badge .count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--danger);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .notification-panel {
+            position: fixed;
+            bottom: 95px;
+            right: 25px;
+            width: 380px;
+            max-height: 70vh;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            transform: translateY(20px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .notification-panel.active {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .notification-header {
+            padding: 1.25rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.25rem;
+            transition: transform 0.2s;
+        }
+
+        .notification-close:hover {
+            transform: rotate(90deg);
+        }
+
+        .notification-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .notification-item {
+            padding: 1.25rem;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            transition: background-color 0.2s;
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-item:hover {
+            background-color: #f8fafc;
+        }
+
+        .notification-icon {
+            color: var(--accent);
+            font-size: 1.4rem;
+            margin-top: 0.2rem;
+            flex-shrink: 0;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: var(--dark);
+        }
+
+        .notification-message {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 0.3rem;
+        }
+
+        .notification-time {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        .clear-all {
+            text-align: center;
+            padding: 1rem;
+            background-color: #f8fafc;
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .clear-all:hover {
+            background-color: #f1f5f9;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.25rem;
+        }
+
+        .action-buttons button {
+            flex: 1;
+            padding: 0.65rem;
+            font-size: 0.9rem;
+            border-radius: 6px;
+        }
+
+        .delete-btn {
+            background-color: var(--danger);
+        }
+
+        .delete-btn:hover {
+            background-color: #dc2626;
+        }
+
+        .edit-btn {
+            background-color: #64748b;
+        }
+
+        .edit-btn:hover {
+            background-color: #475569;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .pulse {
+            animation: pulse 1.5s infinite;
+        }
+
+        .bounce {
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--dark);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        .toast i {
+            font-size: 1.2rem;
+        }
+
+        .toast.success {
+            background-color: var(--completed);
+        }
+
+        .toast.warning {
+            background-color: var(--warning);
+        }
+
+        .toast.error {
+            background-color: var(--danger);
+        }
+
+        .toast.info {
+            background-color: var(--accent);
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            header {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .form-section, .countdowns-section {
+                padding: 1.25rem;
+            }
+            
+            .time-unit {
+                min-width: 60px;
+                padding: 0.5rem;
+            }
+            
+            .time-value {
+                font-size: 1.5rem;
+            }
+            
+            .notification-panel {
+                width: 90vw;
+                right: 5vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Event Countdown Tracker</h1>
+            <p class="subtitle">Never miss an important date again</p>
+        </header>
+
+        <div class="main-content">
+            <div class="form-section">
+                <h2 class="section-title">Add New Event</h2>
+                <form id="eventForm">
+                    <div class="form-group">
+                        <label for="eventName">Event Name</label>
+                        <input type="text" id="eventName" placeholder="e.g., Birthday, Conference, Vacation" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="eventDate">Event Date & Time</label>
+                        <input type="datetime-local" id="eventDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="eventCategory">Category</label>
+                        <select id="eventCategory">
+                            <option value="personal">Personal</option>
+                            <option value="work">Work</option>
+                            <option value="family">Family</option>
+                            <option value="holiday">Holiday</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="isImportant">
+                            <label for="isImportant">Mark as important</label>
+                        </div>
+                    </div>
+                    <button type="submit" id="addEventBtn">
+                        <i class="fas fa-plus"></i> Add Countdown
+                    </button>
+                </form>
+            </div>
+
+            <div class="countdowns-section">
+                <h2 class="section-title">Your Countdowns</h2>
+                
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalEvents">0</div>
+                        <div class="stat-label">Total Events</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="upcomingEvents">0</div>
+                        <div class="stat-label">Upcoming</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="importantEvents">0</div>
+                        <div class="stat-label">Important</div>
+                    </div>
+                </div>
+                
+                <div class="countdown-list" id="countdownList">
+                    <div class="empty-state">
+                        <i class="fas fa-calendar-plus"></i>
+                        <p>No events yet. Add your first countdown!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification-badge" id="notificationBadge">
+        <i class="fas fa-bell"></i>
+        <span class="count" id="notificationCount">0</span>
+    </div>
+
+    <div class="notification-panel" id="notificationPanel">
+        <div class="notification-header">
+            <span>Notifications</span>
+            <button class="notification-close" id="notificationClose">&times;</button>
+        </div>
+        <div class="notification-list" id="notificationList">
+            <div class="empty-state">
+                <i class="fas fa-bell-slash"></i>
+                <p>No notifications yet</p>
+            </div>
+        </div>
+        <div class="clear-all" id="clearNotifications">Clear All</div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const eventForm = document.getElementById('eventForm');
+            const eventNameInput = document.getElementById('eventName');
+            const eventDateInput = document.getElementById('eventDate');
+            const eventCategoryInput = document.getElementById('eventCategory');
+            const isImportantInput = document.getElementById('isImportant');
+            const countdownList = document.getElementById('countdownList');
+            const totalEventsElement = document.getElementById('totalEvents');
+            const upcomingEventsElement = document.getElementById('upcomingEvents');
+            const importantEventsElement = document.getElementById('importantEvents');
+            const notificationBadge = document.getElementById('notificationBadge');
+            const notificationPanel = document.getElementById('notificationPanel');
+            const notificationList = document.getElementById('notificationList');
+            const notificationCount = document.getElementById('notificationCount');
+            const notificationClose = document.getElementById('notificationClose');
+            const clearNotifications = document.getElementById('clearNotifications');
+            const toast = document.getElementById('toast');
+
+            // Set minimum date to today
+            const today = new Date().toISOString().slice(0, 16);
+            eventDateInput.min = today;
+
+            // Initialize events and notifications from localStorage
+            let events = JSON.parse(localStorage.getItem('events')) || [];
+            let notifications = JSON.parse(localStorage.getItem('notifications')) || [];
+            let notifiedEvents = new Set(JSON.parse(localStorage.getItem('notifiedEvents')) || []);
+
+            // Render initial state
+            renderEvents();
+            updateStats();
+            renderNotifications();
+            checkCompletedEvents();
+
+            // Event Form Submission
+            eventForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const eventName = eventNameInput.value.trim();
+                const eventDate = eventDateInput.value;
+                const eventCategory = eventCategoryInput.value;
+                const isImportant = isImportantInput.checked;
+                
+                if (!eventName || !eventDate) {
+                    showToast('Please fill in all fields', 'error');
+                    return;
+                }
+                
+                const newEvent = {
+                    id: Date.now().toString(),
+                    name: eventName,
+                    date: eventDate,
+                    category: eventCategory,
+                    important: isImportant,
+                    createdAt: new Date().toISOString(),
+                    notified: false
+                };
+                
+                events.push(newEvent);
+                saveEvents();
+                renderEvents();
+                updateStats();
+                
+                // Reset form
+                eventForm.reset();
+                eventDateInput.min = new Date().toISOString().slice(0, 16);
+                
+                // Show success notification
+                showToast(`"${eventName}" added successfully`, 'success');
+                addNotification(`Event "${eventName}" added`, 'success', newEvent.id);
+            });
+
+            // Toggle notification panel
+            notificationBadge.addEventListener('click', function() {
+                notificationPanel.classList.toggle('active');
+                if (notificationPanel.classList.contains('active')) {
+                    // Mark notifications as read when panel is opened
+                    notifications = notifications.map(notification => ({
+                        ...notification,
+                        read: true
+                    }));
+                    saveNotifications();
+                    updateNotificationBadge();
+                }
+            });
+
+            notificationClose.addEventListener('click', function() {
+                notificationPanel.classList.remove('active');
+            });
+
+            // Clear all notifications
+            clearNotifications.addEventListener('click', function() {
+                notifications = [];
+                saveNotifications();
+                renderNotifications();
+                updateNotificationBadge();
+                showToast('Notifications cleared', 'info');
+            });
+
+            // Function to render events
+            function renderEvents() {
+                if (events.length === 0) {
+                    countdownList.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-calendar-plus"></i>
+                            <p>No events yet. Add your first countdown!</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Sort events by date (soonest first)
+                events.sort((a, b) => new Date(a.date) - new Date(b.date));
+                
+                countdownList.innerHTML = '';
+                
+                events.forEach(event => {
+                    const eventDate = new Date(event.date);
+                    const now = new Date();
+                    const timeRemaining = eventDate - now;
+                    
+                    const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+                    
+                    // Calculate progress (for progress bar)
+                    const totalDuration = eventDate - new Date(event.createdAt);
+                    const elapsed = now - new Date(event.createdAt);
+                    const progress = Math.min(100, Math.max(0, (elapsed / totalDuration) * 100));
+                    
+                    // Determine event status
+                    let status = '';
+                    let statusClass = '';
+                    
+                    if (timeRemaining <= 0) {
+                        status = 'Completed';
+                        statusClass = 'completed';
+                    } else if (days <= 7) {
+                        statusClass = 'upcoming';
+                    }
+                    
+                    // Create countdown item
+                    const countdownItem = document.createElement('div');
+                    countdownItem.className = `countdown-item ${event.important ? 'important' : ''} ${statusClass} fade-in`;
+                    countdownItem.dataset.id = event.id;
+                    
+                    if (event.important) {
+                        countdownItem.innerHTML += `<span class="important-tag">Important</span>`;
+                    }
+                    
+                    if (status) {
+                        countdownItem.innerHTML += `<span class="status-tag ${statusClass}">${status}</span>`;
+                    }
+                    
+                    countdownItem.innerHTML += `
+                        <div class="countdown-header">
+                            <span class="event-name">${event.name}</span>
+                            <span class="event-date">${formatDate(eventDate)} • ${event.category.charAt(0).toUpperCase() + event.category.slice(1)}</span>
+                        </div>
+                        <div class="countdown-timer">
+                            <div class="time-unit">
+                                <div class="time-value" id="days-${event.id}">${Math.max(0, days)}</div>
+                                <div class="time-label">Days</div>
+                            </div>
+                            <div class="time-unit">
+                                <div class="time-value" id="hours-${event.id}">${Math.max(0, hours)}</div>
+                                <div class="time-label">Hours</div>
+                            </div>
+                            <div class="time-unit">
+                                <div class="time-value" id="minutes-${event.id}">${Math.max(0, minutes)}</div>
+                                <div class="time-label">Minutes</div>
+                            </div>
+                            <div class="time-unit">
+                                <div class="time-value" id="seconds-${event.id}">${Math.max(0, seconds)}</div>
+                                <div class="time-label">Seconds</div>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar ${statusClass}" style="width: ${progress}%"></div>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="delete-btn" data-id="${event.id}"><i class="fas fa-trash"></i> Delete</button>
+                            <button class="edit-btn" data-id="${event.id}"><i class="fas fa-edit"></i> Edit</button>
+                        </div>
+                    `;
+                    
+                    countdownList.appendChild(countdownItem);
+                });
+                
+                // Add event listeners to delete buttons
+                document.querySelectorAll('.delete-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const eventId = this.dataset.id;
+                        deleteEvent(eventId);
+                    });
+                });
+                
+                // Add event listeners to edit buttons
+                document.querySelectorAll('.edit-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const eventId = this.dataset.id;
+                        editEvent(eventId);
+                    });
+                });
+            }
+            
+            // Function to update countdown timers
+            function updateCountdowns() {
+                const now = new Date();
+                
+                events.forEach(event => {
+                    const eventDate = new Date(event.date);
+                    const timeRemaining = eventDate - now;
+                    
+                    const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+                    
+                    // Update DOM elements if they exist
+                    const daysElement = document.getElementById(`days-${event.id}`);
+                    const hoursElement = document.getElementById(`hours-${event.id}`);
+                    const minutesElement = document.getElementById(`minutes-${event.id}`);
+                    const secondsElement = document.getElementById(`seconds-${event.id}`);
+                    
+                    if (daysElement) daysElement.textContent = Math.max(0, days);
+                    if (hoursElement) hoursElement.textContent = Math.max(0, hours);
+                    if (minutesElement) minutesElement.textContent = Math.max(0, minutes);
+                    if (secondsElement) secondsElement.textContent = Math.max(0, seconds);
+                    
+                    // Check for upcoming events to trigger notifications
+                    if (timeRemaining > 0) {
+                        // 7 days remaining
+                        if (timeRemaining <= 604800000 && timeRemaining > 604790000 && !notifiedEvents.has(`${event.id}-7days`)) {
+                            addNotification(`"${event.name}" is happening in 7 days!`, 'reminder', event.id);
+                            notifiedEvents.add(`${event.id}-7days`);
+                            saveNotifiedEvents();
+                        }
+                        // 1 day remaining
+                        else if (timeRemaining <= 86400000 && timeRemaining > 86390000 && !notifiedEvents.has(`${event.id}-1day`)) {
+                            addNotification(`"${event.name}" is happening in 1 day!`, 'reminder', event.id);
+                            notifiedEvents.add(`${event.id}-1day`);
+                            saveNotifiedEvents();
+                        }
+                        // 1 hour remaining
+                        else if (timeRemaining <= 3600000 && timeRemaining > 3599000 && !notifiedEvents.has(`${event.id}-1hour`)) {
+                            addNotification(`"${event.name}" is happening in 1 hour!`, 'reminder', event.id);
+                            notifiedEvents.add(`${event.id}-1hour`);
+                            saveNotifiedEvents();
+                        }
+                        // 10 minutes remaining
+                        else if (timeRemaining <= 600000 && timeRemaining > 599000 && !notifiedEvents.has(`${event.id}-10min`)) {
+                            addNotification(`"${event.name}" is happening in 10 minutes!`, 'reminder', event.id);
+                            notifiedEvents.add(`${event.id}-10min`);
+                            saveNotifiedEvents();
+                        }
+                    }
+                });
+                
+                // Check for completed events
+                checkCompletedEvents();
+                
+                // Continue updating
+                setTimeout(updateCountdowns, 1000);
+            }
+            
+            // Start the countdown updater
+            updateCountdowns();
+            
+            // Function to check for completed events
+            function checkCompletedEvents() {
+                const now = new Date();
+                let hasNewCompletedEvents = false;
+                
+                events.forEach(event => {
+                    const eventDate = new Date(event.date);
+                    if (eventDate <= now && !event.notified) {
+                        // Event has completed
+                        event.notified = true;
+                        hasNewCompletedEvents = true;
+                        
+                        // Add notification
+                        addNotification(`"${event.name}" has arrived!`, 'reminder', event.id);
+                        
+                        // Show toast notification
+                        showToast(`"${event.name}" has arrived!`, 'success');
+                        
+                        // Play notification sound if permission granted
+                        playNotificationSound();
+                        
+                        // Request browser notification if permission granted
+                        if (Notification.permission === 'granted') {
+                            new Notification(`Event: ${event.name}`, {
+                                body: 'The event has arrived!',
+                                icon: 'https://cdn-icons-png.flaticon.com/512/3652/3652191.png'
+                            });
+                        }
+                    }
+                });
+                
+                if (hasNewCompletedEvents) {
+                    saveEvents();
+                    renderEvents();
+                    updateStats();
+                }
+            }
+            
+            // Function to play notification sound
+            function playNotificationSound() {
+                const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3');
+                audio.volume = 0.3;
+                audio.play().catch(e => console.log('Audio playback failed:', e));
+            }
+            
+            // Function to update statistics
+            function updateStats() {
+                const now = new Date();
+                const upcoming = events.filter(event => new Date(event.date) > now).length;
+                const important = events.filter(event => event.important).length;
+                
+                totalEventsElement.textContent = events.length;
+                upcomingEventsElement.textContent = upcoming;
+                importantEventsElement.textContent = important;
+            }
+            
+            // Function to delete an event
+            function deleteEvent(eventId) {
+                if (confirm('Are you sure you want to delete this event?')) {
+                    const eventToDelete = events.find(event => event.id === eventId);
+                    events = events.filter(event => event.id !== eventId);
+                    saveEvents();
+                    renderEvents();
+                    updateStats();
+                    showToast(`"${eventToDelete.name}" deleted`, 'info');
+                    addNotification('Event deleted', 'info');
+                }
+            }
+            
+            // Function to edit an event
+            function editEvent(eventId) {
+                const eventToEdit = events.find(event => event.id === eventId);
+                if (!eventToEdit) return;
+                
+                // Fill the form with event data
+                eventNameInput.value = eventToEdit.name;
+                eventDateInput.value = eventToEdit.date.slice(0, 16);
+                eventCategoryInput.value = eventToEdit.category;
+                isImportantInput.checked = eventToEdit.important;
+                
+                // Remove the event from the list
+                events = events.filter(event => event.id !== eventId);
+                saveEvents();
+                renderEvents();
+                updateStats();
+                
+                // Scroll to form
+                document.querySelector('.form-section').scrollIntoView({ behavior: 'smooth' });
+                
+                showToast(`Editing "${eventToEdit.name}"`, 'info');
+            }
+            
+            // Function to save events to localStorage
+            function saveEvents() {
+                localStorage.setItem('events', JSON.stringify(events));
+            }
+            
+            // Function to save notified events to localStorage
+            function saveNotifiedEvents() {
+                localStorage.setItem('notifiedEvents', JSON.stringify(Array.from(notifiedEvents)));
+            }
+            
+            // Function to format date
+            function formatDate(date) {
+                return new Date(date).toLocaleDateString('en-US', {
+                    weekday: 'short',
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            }
+            
+            // Notification functions
+            function addNotification(message, type = 'info', eventId = null) {
+                const newNotification = {
+                    id: Date.now().toString(),
+                    message,
+                    type,
+                    eventId,
+                    timestamp: new Date().toISOString(),
+                    read: false
+                };
+                
+                notifications.unshift(newNotification);
+                saveNotifications();
+                renderNotifications();
+                updateNotificationBadge();
+                
+                // Show badge animation for new notifications
+                if (!notificationPanel.classList.contains('active')) {
+                    notificationBadge.classList.add('pulse');
+                    setTimeout(() => {
+                        notificationBadge.classList.remove('pulse');
+                    }, 3000);
+                }
+            }
+            
+            function renderNotifications() {
+                if (notifications.length === 0) {
+                    notificationList.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-bell-slash"></i>
+                            <p>No notifications yet</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                notificationList.innerHTML = '';
+                
+                notifications.forEach(notification => {
+                    const notificationItem = document.createElement('div');
+                    notificationItem.className = 'notification-item';
+                    
+                    let icon = 'fa-info-circle';
+                    if (notification.type === 'success') icon = 'fa-check-circle';
+                    if (notification.type === 'reminder') icon = 'fa-bell';
+                    
+                    notificationItem.innerHTML = `
+                        <div class="notification-icon">
+                            <i class="fas ${icon}"></i>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-title">${notification.message}</div>
+                            <div class="notification-time">${formatNotificationTime(notification.timestamp)}</div>
+                        </div>
+                    `;
+                    
+                    notificationList.appendChild(notificationItem);
+                });
+            }
+            
+            function formatNotificationTime(timestamp) {
+                const now = new Date();
+                const notificationTime = new Date(timestamp);
+                const diffInMinutes = Math.floor((now - notificationTime) / (1000 * 60));
+                
+                if (diffInMinutes < 1) return 'Just now';
+                if (diffInMinutes < 60) return `${diffInMinutes} minute${diffInMinutes === 1 ? '' : 's'} ago`;
+                
+                const diffInHours = Math.floor(diffInMinutes / 60);
+                if (diffInHours < 24) return `${diffInHours} hour${diffInHours === 1 ? '' : 's'} ago`;
+                
+                const diffInDays = Math.floor(diffInHours / 24);
+                return `${diffInDays} day${diffInDays === 1 ? '' : 's'} ago`;
+            }
+            
+            function updateNotificationBadge() {
+                const unreadCount = notifications.filter(n => !n.read).length;
+                notificationCount.textContent = unreadCount;
+                
+                if (unreadCount > 0) {
+                    notificationBadge.style.display = 'flex';
+                    notificationCount.style.display = 'flex';
+                } else {
+                    notificationCount.style.display = 'none';
+                }
+            }
+            
+            function saveNotifications() {
+                localStorage.setItem('notifications', JSON.stringify(notifications));
+            }
+            
+            // Toast notification function
+            function showToast(message, type = 'info') {
+                const icons = {
+                    success: 'fa-check-circle',
+                    error: 'fa-exclamation-circle',
+                    warning: 'fa-exclamation-triangle',
+                    info: 'fa-info-circle'
+                };
+                
+                toast.innerHTML = `<i class="fas ${icons[type]}"></i> ${message}`;
+                toast.className = `toast ${type} show`;
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+            
+            // Request notification permission
+            if ('Notification' in window) {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        console.log('Notification permission granted');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
